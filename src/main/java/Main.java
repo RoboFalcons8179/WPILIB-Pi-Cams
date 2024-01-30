@@ -26,6 +26,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.opencv.core.Mat;
 
@@ -286,47 +287,9 @@ public final class Main {
       System.out.println("Added Camera" + cameras.size());
     }
 
-    // VideoSink serverRight = CameraServer.getServer();
-
-    // VideoSink serverLeft = CameraServer.getServer();
-
-    // var table = ntinst.getTable("vision");
-
-    // var tab = Shuffleboard.getTab("vision");
-
-    // tab.addNumber("rightCam", () -> 2);
-
-    // Shuffleboard.getTab("vision").
-
-    // var rightEntry = table.getEntry("rightCamera");
-
-    // var leftEntry = table.getEntry("leftCamera");
-
-    // // var tab = Shuffleboard.getTab("vision");
-
-    // int rightIndex = 0;
-
-    // int leftIndex = 1;
-
-    // serverRight.setSource(cameras.get(rightIndex));
-
-    // serverLeft.setSource(cameras.get(leftIndex));
-
-    // var rightCam = tab.add("right Cam", serverRight.getSource());
-
-    // var leftCam = tab.add("left Cam", serverLeft.getSource());
-
     // loop forever
     for (;;) {
       try {
-
-        // rightIndex = rightEntry.getNumber(0).intValue();
-
-        // leftIndex = leftEntry.getNumber(1).intValue();
-
-        // serverRight.setSource(cameras.get(rightIndex));
-
-        // serverLeft.setSource(cameras.get(leftIndex));
 
         Thread.sleep(500);
       } catch (InterruptedException ex) {
