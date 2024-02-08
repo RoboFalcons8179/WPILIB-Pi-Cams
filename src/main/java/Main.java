@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,6 +24,7 @@ import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.util.RuntimeDetector;
 import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -200,7 +202,7 @@ public final class Main {
     camera.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 
     if (config.streamConfig != null) {
-    server.setConfigJson(gson.toJson(config.streamConfig));
+      server.setConfigJson(gson.toJson(config.streamConfig));
     }
 
     return camera;
@@ -287,9 +289,66 @@ public final class Main {
       System.out.println("Added Camera" + cameras.size());
     }
 
+    boolean leftCam0 = false;
+    boolean leftCam1 = false;
+    boolean leftCam2 = false;
+
     // loop forever
     for (;;) {
       try {
+
+        // Specifies the key to get the data from and the defualt value is no value is
+        // found
+        double leftCamDouble = SmartDashboard.getNumber("Left Camera Value", 0);
+
+        int leftCam = (int) leftCamDouble;
+
+        switch (leftCam) {
+          case 0:
+            if (!leftCam0) {
+              try {
+                Runtime.getRuntime().exec("sudo rm /dev/leftCam");
+                Runtime.getRuntime().exec("sudo link /dev/video0 /dev/leftCam");
+              } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
+              leftCam0 = true;
+              leftCam1 = false;
+              leftCam2 = false;
+            }
+            break;
+          case 1:
+            if (!leftCam1) {
+              try {
+                Runtime.getRuntime().exec("sudo rm /dev/leftCam");
+                Runtime.getRuntime().exec("sudo link /dev/video2 /dev/leftCam");
+              } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
+              leftCam0 = false;
+              leftCam1 = true;
+              leftCam2 = false;
+            }
+            break;
+          case 2:
+            if (!leftCam2) {
+              try {
+                Runtime.getRuntime().exec("sudo rm /dev/leftCam");
+                Runtime.getRuntime().exec("sudo link /dev/video2 /dev/leftCam");
+              } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
+              leftCam0 = false;
+              leftCam1 = false;
+              leftCam2 = true;
+            }
+            break;
+        }
+
+        System.out.println(leftCam);
 
         Thread.sleep(500);
       } catch (InterruptedException ex) {
